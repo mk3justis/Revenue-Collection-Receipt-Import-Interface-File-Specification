@@ -16,7 +16,7 @@ class Convert_xml :
         self.w_file = w_file
 
     # Read the input xml and set the values for the new xml attributes.
-    def __read_xml(self) :
+    def __read_ximl(self) :
         tree = ET.parse(self.r_file)
         root = tree.getroot()
         # List of dictionaries to hold all attributes of all customers' tags.
@@ -85,14 +85,6 @@ class Convert_xml :
                 elif child.tag == 'DT_Record' :
                     info[''] = child.text
                 
-                
-                '''
-                elif child.tag == 'address' :
-                    info['street_name'] = child.find('street').text
-                elif child.tag == 'computer' :
-                    info['graphics_card'] = child.find('gpu').text
-                    info['computer_processor'] = child.find('cpu').text
-                '''
             rows.append(info)
         
         return rows
@@ -102,17 +94,12 @@ class Convert_xml :
         rows = self.__read_xml()
         # Set up tree structure
         root = ET.Element('ROOT')
-        # for customer in customers :
-        #     company = ET.SubElement(root, 'company')
+
         for row in rows :
             ReceiptHeaderLevel = ET.SubElement(root, 'ReceiptHeaderLever')
             ReceiptTransactionLevel = ET.SubElement(ReceiptHeaderLevel, 'ReceiptTransactionLevel')
             ReceiptTransactionGLDistributionLevel = ET.SubElement(ReceiptTransactionLevel, 'ReceiptTransactionGLDistributionLevel')
             ReceiptPaymentLevel = ET.SubElement(ReceiptHeaderLevel, 'ReceiptPaymentLevel')
-            
-            # company.set('street_name', customer['street_name'])
-            # company.set('graphics_card', customer['graphics_card'])
-            # company.set('computer_processor', customer['computer_processor'])
             
             ReceiptHeaderLevel.set('ReceiptNumber', row['ReceiptNumber'])
             ReceiptHeaderLevel.set('VoidedFlag', '0')
