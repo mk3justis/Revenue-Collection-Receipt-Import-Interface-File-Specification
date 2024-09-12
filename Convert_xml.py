@@ -156,41 +156,10 @@ class Convert_xml :
             ReceiptPaymentLevel.set('ReceiptPaymentCreditCardValidationNumber', 'Unknown')
             ReceiptPaymentLevel.set('ReceiptPaymentCreditCardOtherType', 'Unknown')
         
-        # Formatting code comes from ChatGPT but had to be fixed.
-        def format_attributes_on_new_lines(element) :
-            formatted_lines = []
-            def format_element(elem, level=0) :
-                indent = "    "
-                attributes=""
-                
-                # Break attributes into multiple lines
-                attr_lines = [f'        {key}="{value}"' for key, value in elem.attrib.items()]
-                if attr_lines :
-                    attributes = "\n".join(attr_lines)
-                    attributes = f"\n{attributes}"
-                formatted_lines.append(f"{indent * level}<{elem.tag}{attributes}>")
-                
-                if elem.text and elem.text.strip() :
-                    formatted_lines.append(f"{indent * (level + 1)}{elem.text.strip()}")
-                
-                for child in elem :
-                    format_element(child, level + 1)
-                
-                formatted_lines.append(f"{indent * level}</{elem.tag}>")
-            
-            format_element(element)
-            return "\n".join(formatted_lines)
-        
-        
         # Can't use this implementation if we want attributes on separate lines.
-        # tree = ET.ElementTree(root)
-        # ET.indent(tree, '   ')
-        # tree.write(file, encoding='utf-8', xml_declaration=True)
-        
-        
-        formatted_xml = format_attributes_on_new_lines(root)
-        with open(self.w_file, 'w') as f :
-            f.write(formatted_xml)
+        tree = ET.ElementTree(root)
+        ET.indent(tree, '   ')
+        tree.write(self.w_file, encoding='utf-8', xml_declaration=True)
     
 # Main
 def main() :
