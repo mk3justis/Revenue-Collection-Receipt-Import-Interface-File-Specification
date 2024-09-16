@@ -2,7 +2,6 @@
 Script for the City of Winter Haven's Information Technology Department.
 Converts an input .xml to an output .xml with different tag and attribute formatting.
 Developed by Justis Nazirbage.
-Function format_attributes_on_new_lines() modified to fit from ChatGPT.
 '''
 
 import xml.etree.ElementTree as ET
